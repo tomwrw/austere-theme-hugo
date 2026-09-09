@@ -1,8 +1,8 @@
 +++
 title = "Lorem ipsum dolor sit amet"
 date = 2022-02-05
-tags = ["Hugo", "Theme", "Lorem-ipsum", "dolor sit amet"]
-categories = ["Notes"]
+tags = ["hugo", "theme", "lorem-ipsum", "dolor sit amet"]
+categories = ["notes"]
 +++
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu feugiat sapien. Aenean ligula nunc, laoreet id sem in, interdum bibendum felis. Donec vel dui neque. Praesent ac sem ut justo volutpat rutrum a imperdiet tellus. Nam lobortis massa non hendrerit hendrerit. Vivamus porttitor dignissim turpis, eget aliquam urna tincidunt non. Aliquam et fringilla turpis. Nullam eros est, eleifend in ornare sed, hendrerit eget est. Aliquam tellus felis, suscipit vitae ex vel, fringilla tempus massa. Nulla facilisi. Pellentesque lobortis consequat lectus. Maecenas ac libero elit.

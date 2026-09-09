@@ -20,7 +20,7 @@
   {{- with $taxonomies }}
   <footer class="small">
     {{- range . }}
-    <div>{{ .label }}: {{ range $i, $term := .terms }}{{ if $i }}, {{ end }}<a href="{{ $term.RelPermalink }}">{{ $term.Title }}</a>{{ end }}</div>
+    <div>{{ .label }}: {{ range $i, $term := .terms }}{{ if $i }}, {{ end }}<a href="{{ $term.RelPermalink }}">{{ $term.Data.Term }}</a>{{ end }}</div>
     {{- end }}
   </footer>
   {{- end }}

@@ -3,7 +3,7 @@
 {{- $description := site.Params.description | default site.Title -}}
 {{- if .IsHome -}}
 {{- else if eq .Kind "term" -}}
-  {{- $description = i18n "termDescription" (dict "Term" .Title "Site" site.Title) -}}
+  {{- $description = i18n "termDescription" (dict "Term" .Data.Term "Site" site.Title) -}}
 {{- else if eq .Kind "taxonomy" -}}
   {{- $description = i18n "taxonomyDescription" (dict "Taxonomy" (.Title | lower) "Site" site.Title) -}}
 {{- else -}}

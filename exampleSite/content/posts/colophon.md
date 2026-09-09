@@ -1,8 +1,8 @@
 +++
 title = "Colophon"
 description = "A page with no date, to show where undated entries end up in a list."
-tags = ["Theme"]
-categories = ["Notes"]
+tags = ["theme"]
+categories = ["notes"]
 +++
 
 Not everything wants a date on it. A page with no `date` in its front matter

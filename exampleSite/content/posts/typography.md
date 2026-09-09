@@ -2,8 +2,8 @@
 title = "Typography"
 description = "Headings, links, code blocks, blockquotes and lists, so you can see how the theme sets each of them."
 date = 2023-01-16
-tags = ["Hugo", "Theme", "Markdown", "Typography"]
-categories = ["Reference"]
+tags = ["hugo", "theme", "markdown", "typography"]
+categories = ["reference"]
 +++
 
 

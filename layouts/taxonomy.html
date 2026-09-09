@@ -1,10 +1,13 @@
 {{ define "main" }}
-<h1>{{ .Title | strings.FirstUpper }}</h1>
+{{- /* .Data.Term is the term as it was written in the front matter. .Title runs
+       it through Hugo's capitalizeListTitles, which turns a lowercase tag into
+       Title Case whether the author wanted that or not. */ -}}
+<h1>{{ .Title }}</h1>
 {{ .Content }}
 {{- with .Pages }}
 <ul class="tags">
   {{- range . }}
-  <li>#<a href="{{ .RelPermalink }}">{{ .Title }}</a> ({{ len .Pages }})</li>
+  <li>#<a href="{{ .RelPermalink }}">{{ .Data.Term }}</a> ({{ len .Pages }})</li>
   {{- end }}
 </ul>
 {{- end }}
