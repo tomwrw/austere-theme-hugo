@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Authoritative: builds exampleSite with the Hugo version pinned in flake.lock.
+  nix:
+    name: nix flake check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Build the example site
+        run: nix flake check --print-build-logs
+
+  # latest: early warning when a new Hugo release breaks the theme.
+  # 0.146.0: proves the min_version claimed in theme.toml.
+  hugo:
+    name: hugo ${{ matrix.hugo }}
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.hugo == 'latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        hugo: ['0.146.0', latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ matrix.hugo }}
+          extended: true
+      - name: Build the example site
+        run: |
+          mkdir -p /tmp/themes/austere
+          rsync -a --exclude exampleSite --exclude .git ./ /tmp/themes/austere/
+          hugo --source exampleSite --themesDir /tmp/themes --theme austere \
+               --minify --panicOnWarning --printPathWarnings

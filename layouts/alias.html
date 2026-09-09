@@ -1,0 +1,12 @@
+{{/* Hugo's own alias page omits the robots tag, which leaves pagination
+     aliases such as /posts/page/1/ crawlable as duplicates of /posts/. */}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>{{ .Permalink }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta http-equiv="refresh" content="0; url={{ .Permalink }}">
+</head>
+</html>

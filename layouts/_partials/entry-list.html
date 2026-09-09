@@ -1,0 +1,16 @@
+{{- /* pages: a slice of pages. format: how to render the date column.
+       Undated pages get an empty cell, because each li is a subgrid spanning
+       two columns and without one the title slides under the dates. */ -}}
+<ul class="entries">
+  {{- $format := .format }}
+  {{- range .pages }}
+  <li>
+    {{- if .Date.IsZero }}
+    <span></span>
+    {{- else }}
+    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format $format }}</time>
+    {{- end }}
+    <span><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ if .Draft }} <span class="small">({{ i18n "draft" }})</span>{{ end }}</span>
+  </li>
+  {{- end }}
+</ul>

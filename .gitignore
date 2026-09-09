@@ -1,0 +1,13 @@
+# Hugo build output and caches
+public/
+**/resources/_gen/
+.hugo_build.lock
+
+# Nix
+result
+result-*
+.direnv/
+
+# Editors / OS
+.DS_Store
+*.swp

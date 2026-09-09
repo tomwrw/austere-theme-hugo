@@ -1,0 +1,39 @@
+{{- $icon := site.Params.siteIcon | default "quill" -}}
+<header>
+  <div class="header-bar">
+    <span class="header-brand">
+      {{- if eq $icon "quill" -}}
+        {{- with resources.Get "icons/quill.svg" }}{{ .Content | safeHTML }}{{ end -}}
+      {{- else if $icon -}}
+        <img src="{{ $icon | relURL }}" class="custom-icon" alt="">
+      {{- end }}
+      <a href="{{ "" | relLangURL }}"><strong>{{ site.Title }}</strong></a>
+      {{- with site.Params.strapline }}
+      <span class="brand-sep" aria-hidden="true"></span><span class="desc">{{ . }}</span>
+      {{- end }}
+    </span>
+    <button type="button" class="theme" onclick="austereTheme()"
+            title="{{ i18n "toggleTheme" }}" aria-label="{{ i18n "toggleTheme" }}"
+            data-label-system="{{ i18n "themeSystem" }}"
+            data-label-light="{{ i18n "themeLight" }}"
+            data-label-dark="{{ i18n "themeDark" }}">
+      {{- range slice "light" "asleep" "auto" -}}
+        {{- with resources.Get (printf "icons/%s.svg" .) }}{{ .Content | safeHTML }}{{ end -}}
+      {{- end -}}
+    </button>
+  </div>
+  {{- with site.Menus.main }}
+  <hr>
+  {{- $current := $.RelPermalink }}
+  {{- $home := "" | relLangURL }}
+  <nav>
+    {{- range . }}
+      {{- $url := .URL | relLangURL }}
+      {{- with .Page }}{{ $url = .RelPermalink }}{{ end }}
+      {{- $isHome := or (eq $url $home) (eq $url (printf "%s/" $home)) }}
+      {{- $active := or (eq $current $url) (and (not $isHome) (hasPrefix $current $url)) }}
+    <a href="{{ $url }}"{{ if $active }} class="active"{{ end }}>{{ .Name }}</a>
+    {{- end }}
+  </nav>
+  {{- end }}
+</header>

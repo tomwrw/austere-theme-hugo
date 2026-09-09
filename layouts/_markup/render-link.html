@@ -1,0 +1,5 @@
+{{- $url := urls.Parse .Destination -}}
+{{- $external := and $url.IsAbs (ne $url.Host (urls.Parse site.BaseURL).Host) -}}
+<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $external }} rel="noopener external"{{ end }}>{{ .Text }}</a>
+{{- /* Renders inline: no trailing newline, or the browser draws a space
+       before the next character (e.g. "a theme for Zola ."). */ -}}

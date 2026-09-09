@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+  <a href="#main" class="skip-link">{{ i18n "skipToContent" }}</a>
+  {{ partial "header.html" . }}
+  <hr>
+  <main id="main">
+    {{ block "main" . }}{{ .Content }}{{ end }}
+  </main>
+  <hr>
+  {{ partial "footer.html" . }}
+
+  {{ with resources.Get "js/lightbox.js" }}
+    {{ $js := . }}
+    {{ if hugo.IsProduction }}{{ $js = $js | minify | fingerprint }}{{ end }}
+    <script defer src="{{ $js.RelPermalink }}"></script>
+  {{ end }}
+  {{ if hugo.IsProduction }}
+    {{ with site.Params.umami.websiteId }}
+      <script defer src="{{ site.Params.umami.src | default "https://cloud.umami.is/script.js" }}"
+              data-website-id="{{ . }}"
+              {{- with site.Params.umami.domains }} data-domains="{{ . }}"{{ end }}></script>
+    {{ end }}
+    {{ with site.Config.Services.GoogleAnalytics.ID }}{{ partial "google_analytics.html" $ }}{{ end }}
+  {{ end }}
+</body>
+</html>

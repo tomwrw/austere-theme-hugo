@@ -1,0 +1,61 @@
+baseURL = "https://example.org/"
+title = "austere"
+theme = "austere"
+copyright = "© tomwrw"
+enableRobotsTXT = true
+
+# Everything below is optional.
+
+# Hugo defaults to both of these. List the ones you actually use, so unused
+# taxonomy pages do not end up in the sitemap.
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[params]
+  description = "A minimal theme for Hugo with a focus on writing."
+  author = "tomwrw"
+  keywords = "hugo, theme, minimal"
+
+  strapline = "A minimal theme for Hugo."
+  footerText = "austere - made for <a href='https://gohugo.io'>Hugo</a>"
+  favicon = "/favicon.ico"
+  profilePicture = "/images/profile.svg"
+
+  # "quill" is the bundled mark. Give a path for your own, or "" for none.
+  siteIcon = "quill"
+  # undatedPosition = "above"   # default is "below"
+
+  # [params.images]
+  #   sizes = [512, 1024, 2048]
+  #   defaultSize = 1024
+  #   quality = 80
+  #   format = "webp"       # webp | jpeg | png | original
+
+  # [params.umami]
+  #   websiteId = ""
+
+# [services.googleAnalytics]
+#   ID = "G-XXXXXXXXXX"
+
+[menus]
+  [[menus.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 10
+  [[menus.main]]
+    name = "Posts"
+    pageRef = "/posts"
+    weight = 20
+  [[menus.main]]
+    name = "About"
+    pageRef = "/about"
+    weight = 30
+  [[menus.main]]
+    name = "Tags"
+    pageRef = "/tags"
+    weight = 40
+  [[menus.main]]
+    name = "Categories"
+    pageRef = "/categories"
+    weight = 50

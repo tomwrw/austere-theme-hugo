@@ -1,0 +1,38 @@
+{{- /* Called by the image render hook. Resizes page-bundle images into a srcset;
+       SVG, GIF, remote files and anything in static/ pass through untouched. */ -}}
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $title := .title | default "" -}}
+
+{{- $sizes := site.Params.images.sizes | default (slice 512 1024 2048) -}}
+{{- $quality := int (site.Params.images.quality | default 80) -}}
+{{- $format := site.Params.images.format | default "webp" -}}
+{{- $defaultSize := int (site.Params.images.defaultSize | default 1024) -}}
+
+{{- $resource := false -}}
+{{- with .page }}{{ with .Resources.GetMatch $src }}{{ $resource = . }}{{ end }}{{ end -}}
+{{- if not $resource }}{{ with resources.Get $src }}{{ $resource = . }}{{ end }}{{ end -}}
+
+{{- $resizable := false -}}
+{{- with $resource }}{{ $resizable = in (slice "png" "jpeg" "webp" "tiff" "bmp") .MediaType.SubType }}{{ end -}}
+
+{{- if $resizable -}}
+  {{- $opts := cond (eq $format "original") (printf " q%d" $quality) (printf " %s q%d" $format $quality) -}}
+  {{- $srcset := slice -}}
+  {{- range $sizes -}}
+    {{- if ge $resource.Width (int .) -}}
+      {{- $variant := $resource.Resize (printf "%dx%s" (int .) $opts) -}}
+      {{- $srcset = $srcset | append (printf "%s %dw" $variant.RelPermalink (int .)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $width := cond (ge $resource.Width $defaultSize) $defaultSize $resource.Width -}}
+  {{- $default := $resource.Resize (printf "%dx%s" $width $opts) -}}
+  <img src="{{ $default.RelPermalink }}"
+    {{- with $srcset }} srcset="{{ delimit . ", " }}" sizes="(max-width: 70ch) 100vw, 70ch"{{ end }}
+    width="{{ $default.Width }}" height="{{ $default.Height }}"
+    alt="{{ $alt }}"{{ with $title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- else -}}
+  {{- $url := $src -}}
+  {{- with $resource }}{{ $url = .RelPermalink }}{{ else }}{{ if not (urls.Parse $src).IsAbs }}{{ $url = $src | relURL }}{{ end }}{{ end -}}
+  <img src="{{ $url }}" alt="{{ $alt }}"{{ with $title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- end -}}

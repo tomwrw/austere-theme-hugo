@@ -1,0 +1,6 @@
+{{/* Chroma emits classes rather than inline styles here whatever the site's
+     markup.highlight config says, so the palette can follow the colour scheme
+     without the site needing to configure anything. */}}
+{{- $opts := merge .Options (dict "noClasses" false) -}}
+{{- if not (transform.CanHighlight .Type) }}{{ $opts = merge $opts (dict "type" "text") }}{{ end -}}
+{{- (transform.HighlightCodeBlock . $opts).Wrapped -}}

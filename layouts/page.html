@@ -1,0 +1,28 @@
+{{ define "main" }}
+{{- /* Every taxonomy the site declares, not just tags, so categories and
+       anything custom appear without the theme knowing their names. */ -}}
+{{- $taxonomies := slice }}
+{{- range $name, $terms := site.Taxonomies }}
+  {{- with $.GetTerms $name }}
+    {{- $label := $name | humanize | title }}
+    {{- with site.GetPage (printf "/%s" $name) }}{{ $label = .Title }}{{ end }}
+    {{- $taxonomies = $taxonomies | append (dict "label" $label "terms" .) }}
+  {{- end }}
+{{- end }}
+<article>
+  <header>
+    <h1>{{ .Title }}{{ if .Draft }} ({{ i18n "draft" }}){{ end }}</h1>
+    {{- if not .Date.IsZero }}
+    <time class="small" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+    {{- end }}
+  </header>
+  {{ .Content }}
+  {{- with $taxonomies }}
+  <footer class="small">
+    {{- range . }}
+    <div>{{ .label }}: {{ range $i, $term := .terms }}{{ if $i }}, {{ end }}<a href="{{ $term.RelPermalink }}">{{ $term.Title }}</a>{{ end }}</div>
+    {{- end }}
+  </footer>
+  {{- end }}
+</article>
+{{ end }}

@@ -1,0 +1,16 @@
+{{ define "main" }}
+{{- $dated := slice }}
+{{- $undated := slice }}
+{{- range .Pages }}
+  {{- if .Date.IsZero }}{{ $undated = $undated | append . }}{{ else }}{{ $dated = $dated | append . }}{{ end }}
+{{- end }}
+{{- $position := site.Params.undatedPosition | default "below" }}
+<h1>{{ .Parent.Title | strings.FirstUpper }}: {{ .Title | strings.FirstUpper }}</h1>
+{{ .Content }}
+{{ if eq $position "above" }}{{ partial "undated.html" $undated }}{{ end }}
+{{- range $dated.GroupByDate "2006" }}
+<h2>{{ .Key }}</h2>
+{{ partial "entry-list.html" (dict "pages" .Pages "format" "02 Jan") }}
+{{- end }}
+{{ if ne $position "above" }}{{ partial "undated.html" $undated }}{{ end }}
+{{ end }}

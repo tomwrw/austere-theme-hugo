@@ -1,0 +1,8 @@
+<footer class="small">
+  {{- with site.Params.footerText }}
+  <span>{{ . | safeHTML }}</span>
+  {{- end }}
+  {{- with site.Home.OutputFormats.Get "rss" }}
+  <span><a href="{{ .RelPermalink }}">{{ i18n "feed" }}</a></span>
+  {{- end }}
+</footer>

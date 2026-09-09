@@ -1,0 +1,9 @@
+{{- with .Paginator -}}
+  {{- if gt .TotalPages 1 }}
+<nav class="pager small" aria-label="Pagination">
+  {{- with .Prev }}<a href="{{ .URL }}" rel="prev">← {{ i18n "newer" }}</a>{{ else }}<span></span>{{ end }}
+  <span class="count">{{ .PageNumber }} / {{ .TotalPages }}</span>
+  {{- with .Next }}<a href="{{ .URL }}" rel="next">{{ i18n "older" }} →</a>{{ else }}<span></span>{{ end }}
+</nav>
+  {{- end -}}
+{{- end -}}

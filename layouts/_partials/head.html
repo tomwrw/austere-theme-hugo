@@ -1,0 +1,43 @@
+{{- /* Taxonomy pages have no content of their own, so without this they all
+       inherit the site description and read as duplicates. */ -}}
+{{- $description := site.Params.description | default site.Title -}}
+{{- if .IsHome -}}
+{{- else if eq .Kind "term" -}}
+  {{- $description = i18n "termDescription" (dict "Term" .Title "Site" site.Title) -}}
+{{- else if eq .Kind "taxonomy" -}}
+  {{- $description = i18n "taxonomyDescription" (dict "Taxonomy" (.Title | lower) "Site" site.Title) -}}
+{{- else -}}
+  {{- with .Description }}{{ $description = . }}{{ else }}{{ with .Summary }}{{ $description = . | plainify | truncate 160 }}{{ end }}{{ end -}}
+{{- end -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ with site.Params.strapline }} · {{ . }}{{ end }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ $description | plainify | chomp }}">
+{{ with .Params.keywords | default site.Params.keywords }}
+<meta name="keywords" content="{{ if reflect.IsSlice . }}{{ delimit . ", " }}{{ else }}{{ . }}{{ end }}">
+{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+{{ if eq .Kind "404" }}<meta name="robots" content="noindex">{{ end }}
+{{ range .AlternativeOutputFormats }}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
+{{ end }}
+{{ with site.Params.favicon }}<link rel="icon" href="{{ . | relURL }}">{{ end }}
+
+{{ partial "opengraph.html" . }}
+{{ partial "twitter_cards.html" . }}
+{{ partial "schema.html" . }}
+
+{{ $css := slice (resources.Get "css/main.css") }}
+{{ with resources.Get "css/custom.css" }}{{ $css = $css | append . }}{{ end }}
+{{ $css = $css | resources.Concat "css/main.css" }}
+{{ if hugo.IsProduction }}{{ $css = $css | minify }}{{ end }}
+<style>{{ $css.Content | safeCSS }}</style>
+
+{{/* Blocking, and after the stylesheet: it reads --bg off the root element and
+     applies the stored scheme before the first paint. */}}
+<meta name="theme-color" id="theme-color" content="#FAF7F2">
+{{ with resources.Get "js/theme.js" }}
+  {{ $js := . }}
+  {{ if hugo.IsProduction }}{{ $js = $js | minify }}{{ end }}
+  <script>{{ $js.Content | safeJS }}</script>
+{{ end }}

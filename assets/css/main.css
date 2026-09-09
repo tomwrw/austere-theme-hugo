@@ -1,0 +1,411 @@
+/* Override any of these from your own site by adding assets/css/custom.css;
+   the theme appends it to this file.
+
+   Light is the base. Dark is repeated because a media query and an attribute
+   selector can't share a rule: the first block covers readers following their
+   OS, the second covers a reader who picked dark explicitly. */
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Named Linux families sit before the generic `serif`, which a desktop is
+     free to alias to anything, a sans face included. */
+  --font-serif: "Source Serif 4", "Source Serif Pro", Charter, "Bitstream Charter",
+                "Sitka Text", Cambria, Georgia, "Noto Serif", "Liberation Serif",
+                "DejaVu Serif", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "DejaVu Sans Mono", monospace;
+
+  --bg: #FAF7F2;
+  --text: #1a1a1a;
+  --heading: #1a1a1a;
+  --muted: #3a3a3a;
+  --quote: #555555;
+  --accent: #9E4440;
+  --accent-hover: #7A3533;
+  --code-bg: #f0ebe3;
+  --border: #e0d9ce;
+  --icon-filter: none;
+
+  --c-comment: #5b636b;
+  --c-keyword: #c82938;
+  --c-string: #1f7934;
+  --c-number: #005cc5;
+  --c-function: #6f42c1;
+  --c-type: #005cc5;
+  --c-constant: #005cc5;
+  --c-variable: #af4b07;
+  --c-attribute: #6f42c1;
+  --c-tag: #1f7934;
+  --c-operator: #c82938;
+  --c-punctuation: #24292e;
+  --c-builtin: #6f42c1;
+  --c-label: #005cc5;
+  --c-namespace: #af4b07;
+  --c-error: #b31d28;
+  --c-hl: #fffbdd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: #141413;
+    --text: #e8e8e8;
+    --heading: #ffffff;
+    --muted: #a0a0a0;
+    --quote: #a0a0a0;
+    --accent: #E07A5F;
+    --accent-hover: #F4A594;
+    --code-bg: #1e1e1d;
+    --border: #2a2a29;
+    --icon-filter: invert(1);
+
+    --c-comment: #8b949e;
+    --c-keyword: #ff7b72;
+    --c-string: #a5d6ff;
+    --c-number: #79c0ff;
+    --c-function: #d2a8ff;
+    --c-type: #79c0ff;
+    --c-constant: #79c0ff;
+    --c-variable: #ffa657;
+    --c-attribute: #d2a8ff;
+    --c-tag: #7ee787;
+    --c-operator: #ff7b72;
+    --c-punctuation: #c9d1d9;
+    --c-builtin: #d2a8ff;
+    --c-label: #79c0ff;
+    --c-namespace: #ffa657;
+    --c-error: #ffa198;
+    --c-hl: #2a2a29;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #141413;
+  --text: #e8e8e8;
+  --heading: #ffffff;
+  --muted: #a0a0a0;
+  --quote: #a0a0a0;
+  --accent: #E07A5F;
+  --accent-hover: #F4A594;
+  --code-bg: #1e1e1d;
+  --border: #2a2a29;
+  --icon-filter: invert(1);
+
+  --c-comment: #8b949e;
+  --c-keyword: #ff7b72;
+  --c-string: #a5d6ff;
+  --c-number: #79c0ff;
+  --c-function: #d2a8ff;
+  --c-type: #79c0ff;
+  --c-constant: #79c0ff;
+  --c-variable: #ffa657;
+  --c-attribute: #d2a8ff;
+  --c-tag: #7ee787;
+  --c-operator: #ff7b72;
+  --c-punctuation: #c9d1d9;
+  --c-builtin: #d2a8ff;
+  --c-label: #79c0ff;
+  --c-namespace: #ffa657;
+  --c-error: #ffa198;
+  --c-hl: #2a2a29;
+}
+
+/* ---------- document --------------------------------------------------- */
+html {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: auto;
+  max-width: 70ch;
+  padding: 1.5rem 1em 3em;
+  background: var(--bg);
+  color: var(--text);
+  /* A bare URL would otherwise push the page sideways on a phone. */
+  overflow-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--heading);
+}
+h1 { font-size: 1.75rem }
+h2 { font-size: 1.375rem }
+h3 { font-size: 1.125rem }
+
+p { text-align: justify; hyphens: auto }
+p, ul, ol, article > footer, article > header { margin: 0 0 1.5rem }
+p, ul, ol, .desc { color: var(--muted) }
+li::marker { color: var(--accent) }
+strong { color: var(--heading) }
+
+a { color: var(--accent); text-decoration: underline }
+a:visited { color: var(--accent) }
+a:hover { color: var(--accent-hover) }
+a.active { color: var(--accent) }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  clear: both;
+  margin: 1.5rem 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 1.5rem;
+  padding-left: 1.25rem;
+  margin: 0 0 1.5rem;
+  font-style: italic;
+  color: var(--quote);
+}
+blockquote > *:last-child { margin-bottom: 0 }
+
+/* ---------- code ------------------------------------------------------- */
+pre {
+  padding: 1.5rem;
+  margin: 0 0 1.5rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background: var(--code-bg);
+}
+pre code {
+  background: 0 !important;
+  padding: 0;
+  font-size: inherit;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  background: var(--code-bg);
+  color: var(--text);
+}
+/* Chroma wraps blocks in <div class="highlight">; keep the original spacing. */
+.highlight > pre { margin: 0 }
+
+/* ---------- tables ----------------------------------------------------- */
+table { width: 100%; border-collapse: collapse; margin: 0 0 1.5rem }
+th, td { padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); text-align: left }
+th { color: var(--heading); font-weight: 600 }
+
+/* ---------- media ------------------------------------------------------ */
+img { max-width: 100% }
+img:not([src$=".svg"]), article > div, blockquote, pre { border-radius: 0.4rem }
+img[src$="#pixelate"] { image-rendering: pixelated }
+article > img, article > p > img, article > div {
+  display: block;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+article > img, article > p > img { background: var(--code-bg) }
+/* The profile picture is line art, so it inverts with the scheme. The toggle
+   icons use currentColor and need no help. */
+img[src$=".svg"] { filter: var(--icon-filter) }
+
+.lb {
+  position: fixed;
+  inset: 0;
+  background: #000d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  cursor: pointer;
+}
+.lb img { max-width: 95vw; max-height: 95vh }
+
+/* ---------- header ----------------------------------------------------- */
+.header-brand { display: flex; align-items: center }
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header strong {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--accent);
+}
+header > div > span > a { text-decoration: none }
+header > div > span > a:hover { text-decoration: underline }
+.site-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  vertical-align: middle;
+  margin-right: 1rem;
+  color: var(--accent);
+}
+.custom-icon { height: auto; max-height: 3rem; width: auto; margin-right: 1rem }
+
+/* Drawn rather than typed: a middle dot sits high in its em box and its size
+   varies with whichever fallback serif the reader has, so it never lands in the
+   middle. As a flex item this one is centred whatever the font. */
+.brand-sep {
+  flex: none;
+  width: 0.3rem;
+  height: 0.3rem;
+  margin: 0 0.6rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-bottom: 1.5rem }
+nav a { font-weight: 500 }
+
+/* Theme toggle: one icon per state, chosen by the same selectors as the tokens. */
+.theme {
+  display: inline-block;
+  width: 1.125rem;
+  height: 1.125rem;
+  vertical-align: middle;
+  margin-bottom: 0.15rem;
+  padding: 0;
+  border: 0;
+  background: 0;
+  color: inherit;
+  cursor: pointer;
+}
+.theme svg { width: 100%; height: 100%; display: none }
+:root:not([data-theme]) .theme .i-auto,
+:root[data-theme="light"] .theme .i-light,
+:root[data-theme="dark"] .theme .i-asleep { display: block }
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  z-index: 1000;
+}
+.skip-link:focus { top: 0 }
+
+/* ---------- footer ----------------------------------------------------- */
+body > footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+body > footer img, body > footer svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+/* ---------- lists ------------------------------------------------------ */
+.small { font-size: 0.85rem }
+
+.entries { list-style: none; padding: 0; margin: 0 0 1.5rem }
+.entries li {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+  align-items: baseline;
+}
+.entries li:last-child { margin-bottom: 0 }
+.entries time { opacity: 0.7; flex-shrink: 0; font-variant-numeric: tabular-nums }
+
+/* Every title starts in the same column, whatever width the date renders at. */
+@supports (grid-template-columns: subgrid) {
+  .entries {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 1.5rem;
+    row-gap: 0.75rem;
+  }
+  .entries li {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: span 2;
+    margin-bottom: 0;
+  }
+}
+
+.tags {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+.tags li { display: inline }
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.pager .count { color: var(--muted) }
+
+/* ---------- home / projects -------------------------------------------- */
+.profile-pic {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 1.5rem;
+}
+
+/* ---------- syntax highlighting (Chroma) -------------------------------- */
+.chroma .c, .chroma .ch, .chroma .cm, .chroma .c1, .chroma .cs,
+.chroma .cp, .chroma .cpf { color: var(--c-comment); font-style: italic }
+.chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp,
+.chroma .kr { color: var(--c-keyword) }
+.chroma .kt, .chroma .nc, .chroma .ne { color: var(--c-type) }
+.chroma .s, .chroma .sa, .chroma .sb, .chroma .sc, .chroma .dl,
+.chroma .sd, .chroma .s2, .chroma .se, .chroma .sh, .chroma .si,
+.chroma .sx, .chroma .sr, .chroma .s1, .chroma .ss { color: var(--c-string) }
+.chroma .m, .chroma .mb, .chroma .mf, .chroma .mh, .chroma .mi,
+.chroma .il, .chroma .mo { color: var(--c-number) }
+.chroma .nf, .chroma .fm, .chroma .nd { color: var(--c-function) }
+.chroma .no { color: var(--c-constant) }
+.chroma .nv, .chroma .vc, .chroma .vg, .chroma .vi,
+.chroma .vm { color: var(--c-variable) }
+.chroma .na { color: var(--c-attribute) }
+.chroma .nt { color: var(--c-tag) }
+.chroma .o, .chroma .ow { color: var(--c-operator) }
+.chroma .p { color: var(--c-punctuation) }
+.chroma .nb, .chroma .bp { color: var(--c-builtin) }
+.chroma .nl, .chroma .ni { color: var(--c-label) }
+.chroma .nn, .chroma .nx { color: var(--c-namespace) }
+.chroma .err { color: var(--c-error) }
+.chroma .hl { background-color: var(--c-hl); display: block; width: 100% }
+.chroma .ln, .chroma .lnt { color: var(--c-comment); margin-right: 0.6em }
+.chroma .gd { color: var(--c-error) }
+.chroma .gi { color: var(--c-string) }
+.chroma .ge { font-style: italic }
+.chroma .gs { font-weight: 600 }
+
+/* ---------- small screens ---------------------------------------------- */
+@media (max-width: 30em) {
+  header .desc, .brand-sep { display: none }
+
+  /* Links keep their natural width and wrap. The padding is the row spacing,
+     and gives each one a tap target of roughly 43px rather than 27px. */
+  nav { row-gap: 0; margin-bottom: 1rem }
+  nav a { padding: 0.5rem 0 }
+
+  /* Scroll a wide table in place instead of stretching the page. Without the
+     nowrap the columns crush themselves to fit and break words mid-token. */
+  table { display: block; overflow-x: auto; white-space: nowrap }
+}

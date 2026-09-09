@@ -1,0 +1,6 @@
+{{ define "main" }}
+{{- with site.Params.profilePicture }}
+<img src="{{ . | relURL }}" alt="{{ i18n "profilePicture" }}" class="profile-pic">
+{{- end }}
+<article>{{ .Content }}</article>
+{{ end }}

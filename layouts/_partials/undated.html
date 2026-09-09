@@ -1,0 +1,4 @@
+{{- with . }}
+<h2>{{ i18n "undated" }}</h2>
+{{ partial "entry-list.html" (dict "pages" . "format" "2006-01-02") }}
+{{- end -}}

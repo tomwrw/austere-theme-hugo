@@ -1,0 +1,14 @@
+name = "austere"
+license = "MIT"
+licenselink = "https://github.com/tomwrw/austere-theme-hugo/blob/main/LICENSE"
+description = "A minimal theme for Hugo with a focus on writing."
+homepage = "https://github.com/tomwrw/austere-theme-hugo"
+demosite = "https://www.tomwrw.com"
+min_version = "0.146.0"
+
+tags = ["blog", "minimal", "personal", "responsive", "writing", "dark"]
+features = ["light-dark-mode", "responsive-images", "internal-css", "rss", "taxonomies", "i18n", "seo"]
+
+[author]
+  name = "tomwrw"
+  homepage = "https://www.tomwrw.com"
