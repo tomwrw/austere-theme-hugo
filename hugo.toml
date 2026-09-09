@@ -1,0 +1,16 @@
+# Module metadata only.
+#
+# Nothing here is configuration you need to copy into your own site — the theme
+# still requires none. It describes the theme to Hugo and to themes.gohugo.io,
+# which reads the minimum version from here rather than from theme.toml.
+
+[module]
+  [module.hugoVersion]
+    # 0.146 introduced the layouts/_partials and layouts/_markup layout this
+    # theme is built on. Tested against 0.146.0 and 0.165.0.
+    min = "0.146.0"
+
+    # Responsive images default to WebP, and only the extended edition can
+    # encode it. Set params.images.format = "jpeg" to run on the standard
+    # edition instead.
+    extended = true
