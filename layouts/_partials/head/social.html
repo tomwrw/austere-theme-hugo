@@ -1,0 +1,50 @@
+{{- /* OpenGraph and Twitter cards.
+
+  Hugo's embedded opengraph.html and twitter_cards.html read .Title, which on a
+  term page has been through capitalizeListTitles. The body, the <title> and the
+  meta description all use the term as written, so delegating here would leave a
+  tag page calling itself "Nixos" in the tab and "nixos" on the page. Hence our
+  own, taking the title the caller already worked out.
+
+  page, title, description are supplied by head.html. */ -}}
+{{- $page := .page -}}
+{{- $title := .title -}}
+{{- $description := .description -}}
+{{- $isArticle := and $page.IsPage (not $page.Date.IsZero) -}}
+
+{{- /* Social preview image: page param, then a likely-looking page resource,
+       then the site-wide fallback. */ -}}
+{{- $image := "" -}}
+{{- with $page.Params.images -}}
+  {{- $image = (index . 0) | absURL -}}
+{{- else -}}
+  {{- with $page.Resources.GetMatch "{cover,og,feature}.{png,jpg,jpeg,webp}" -}}
+    {{- $image = .Permalink -}}
+  {{- else -}}
+    {{- with $page.Resources.ByType "image" }}{{ $image = (index . 0).Permalink }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $image }}{{ with site.Params.ogImage }}{{ $image = . | absURL }}{{ end }}{{ end -}}
+
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ cond $isArticle "article" "website" }}">
+<meta property="og:url" content="{{ $page.Permalink }}">
+<meta property="og:locale" content="{{ site.Language.Lang }}">
+{{- with $image }}
+<meta property="og:image" content="{{ . }}">
+{{- end }}
+{{- if $isArticle }}
+<meta property="article:published_time" content="{{ $page.Date.Format "2006-01-02T15:04:05Z07:00" }}">
+<meta property="article:modified_time" content="{{ $page.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+{{- range $page.GetTerms "tags" }}
+<meta property="article:tag" content="{{ .Data.Term }}">
+{{- end }}
+{{- end }}
+<meta name="twitter:card" content="{{ cond (ne $image "") "summary_large_image" "summary" }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+{{- with $image }}
+<meta name="twitter:image" content="{{ . }}">
+{{- end -}}

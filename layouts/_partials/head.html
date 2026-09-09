@@ -1,18 +1,28 @@
-{{- /* Taxonomy pages have no content of their own, so without this they all
-       inherit the site description and read as duplicates. */ -}}
+{{- /* Title and description are worked out once here and reused by the social
+       tags, so the tab, the heading and every link preview agree.
+
+       On a term page that means .Data.Term, the term as written in the front
+       matter: .Title has been through Hugo's capitalizeListTitles and would
+       render a lowercase tag in Title Case. Taxonomy pages have no content of
+       their own, so without a description of their own they would all inherit
+       the site's and read as duplicates. */ -}}
+{{- $title := .Title -}}
 {{- $description := site.Params.description | default site.Title -}}
 {{- if .IsHome -}}
+  {{- $title = site.Title -}}
 {{- else if eq .Kind "term" -}}
+  {{- $title = .Data.Term -}}
   {{- $description = i18n "termDescription" (dict "Term" .Data.Term "Site" site.Title) -}}
 {{- else if eq .Kind "taxonomy" -}}
   {{- $description = i18n "taxonomyDescription" (dict "Taxonomy" (.Title | lower) "Site" site.Title) -}}
 {{- else -}}
   {{- with .Description }}{{ $description = . }}{{ else }}{{ with .Summary }}{{ $description = . | plainify | truncate 160 }}{{ end }}{{ end -}}
 {{- end -}}
+{{- $description = $description | plainify | chomp -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ if .IsHome }}{{ site.Title }}{{ with site.Params.strapline }} · {{ . }}{{ end }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
-<meta name="description" content="{{ $description | plainify | chomp }}">
+<title>{{ if .IsHome }}{{ site.Title }}{{ with site.Params.strapline }} · {{ . }}{{ end }}{{ else }}{{ $title }} | {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ $description }}">
 {{ with .Params.keywords | default site.Params.keywords }}
 <meta name="keywords" content="{{ if reflect.IsSlice . }}{{ delimit . ", " }}{{ else }}{{ . }}{{ end }}">
 {{ end }}
@@ -23,9 +33,7 @@
 {{ end }}
 {{ with site.Params.favicon }}<link rel="icon" href="{{ . | relURL }}">{{ end }}
 
-{{ partial "opengraph.html" . }}
-{{ partial "twitter_cards.html" . }}
-{{ partial "schema.html" . }}
+{{ partial "head/social.html" (dict "page" . "title" $title "description" $description) }}
 
 {{ $css := slice (resources.Get "css/main.css") }}
 {{ with resources.Get "css/custom.css" }}{{ $css = $css | append . }}{{ end }}
